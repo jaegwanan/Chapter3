@@ -1,6 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Player_tank.h"
+#include "GAS/Attributes/HealthAttributeSet.h"
+#include "GAS/Abilities/GA_TankShoot.h"
+#include "AbilitySystemComponent.h"
 #include "Components/BoxComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "EnhancedInputComponent.h"
@@ -11,6 +14,7 @@
 APlayer_tank::APlayer_tank()
 {
 	PrimaryActorTick.bCanEverTick = true;
+	ShootAbilityClass = UGA_TankShoot::StaticClass();
 
 	BoxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("Box"));
 	SetRootComponent(BoxComp);
@@ -28,6 +32,8 @@ APlayer_tank::APlayer_tank()
 	GunMesh->SetupAttachment(TurretMesh);
 	GunMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
+	MuzzlePoint->SetupAttachment(GunMesh); // 포신 끝에서 발사
+
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	SpringArm->SetupAttachment(BoxComp);
 	SpringArm->TargetArmLength = 500.f;
@@ -36,6 +42,18 @@ APlayer_tank::APlayer_tank()
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm);
 	Camera->bUsePawnControlRotation = false;
+}
+
+void APlayer_tank::BeginPlay()
+{
+	Super::BeginPlay();
+
+	AddAttributeSet<UHealthAttributeSet>();
+
+	if (AbilitySystemComponent && ShootAbilityClass)
+	{
+		AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(ShootAbilityClass, 1));
+	}
 }
 
 void APlayer_tank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

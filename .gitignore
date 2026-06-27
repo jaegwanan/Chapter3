@@ -1,11 +1,43 @@
-.idea/
+# Visual Studio
 .vs/
+*.sln
+*.VC.db
+*.VC.opendb
+*.opensdf
+*.opendb
+*.suo
+*.user
+
+# JetBrains Rider
+.idea/
+
+# Unreal Engine
 Binaries/
+Build/
 DerivedDataCache/
 Intermediate/
 Saved/
+Plugins/*/Binaries/
+Plugins/*/Intermediate/
 
-*.sln
-*.VC.db
-*.opensdf
-*.opendb
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project-specific Content exclusions
+Content/Advanced_Auto_Material/
+Content/Characters/
+Content/Fab/
+Content/FirstPerson/
+Content/Input/
+Content/LevelPrototyping/
+Content/Military_Free/
+Content/QuantumCharacter/
+Content/Variant_Horror/
+Content/Variant_Shooter/
+Content/Weapons/
+Content/__ExternalActors__/
+Content/__ExternalObjects__/

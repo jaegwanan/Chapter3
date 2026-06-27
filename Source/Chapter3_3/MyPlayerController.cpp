@@ -4,8 +4,8 @@
 #include "MyPlayerController.h"
 #include "EnhancedInputSubsystems.h" 
 
-AMyPlayerController::AMyPlayerController(): InputMappingContext(nullptr),	
-	MoveAction(nullptr), JumpAction(nullptr), SprintAction(nullptr), LookAction(nullptr)
+AMyPlayerController::AMyPlayerController(): InputMappingContext(nullptr),
+	MoveAction(nullptr), JumpAction(nullptr), SprintAction(nullptr), LookAction(nullptr), ShootAction(nullptr)
 {
 	
 }

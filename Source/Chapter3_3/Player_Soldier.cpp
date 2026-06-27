@@ -2,7 +2,10 @@
 
 
 #include "Player_Soldier.h"
-
+#include "GAS/Attributes/HealthAttributeSet.h"
+#include "GAS/Attributes/AmmoAttributeSet.h"
+#include "GAS/Abilities/GA_SoldierShoot.h"
+#include "AbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "EnhancedInputComponent.h"
@@ -10,16 +13,18 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 
-// Sets default values
 APlayer_Soldier::APlayer_Soldier()
 {
 	PrimaryActorTick.bCanEverTick = true;
+	ShootAbilityClass = UGA_SoldierShoot::StaticClass();
 	
 	CapsuleComp = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule"));
 	SetRootComponent(CapsuleComp);
 	
 	MeshComp = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	MeshComp->SetupAttachment(CapsuleComp);
+
+	MuzzlePoint->SetupAttachment(MeshComp);
 	
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	SpringArm->SetupAttachment(CapsuleComp);
@@ -32,6 +37,19 @@ APlayer_Soldier::APlayer_Soldier()
 
 	CapsuleComp->SetCollisionProfileName(TEXT("Pawn"));
 	MeshComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
+void APlayer_Soldier::BeginPlay()
+{
+	Super::BeginPlay();
+
+	AddAttributeSet<UHealthAttributeSet>();
+	AddAttributeSet<UAmmoAttributeSet>();
+
+	if (AbilitySystemComponent && ShootAbilityClass)
+	{
+		AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(ShootAbilityClass, 1));
+	}
 }
 
 void APlayer_Soldier::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

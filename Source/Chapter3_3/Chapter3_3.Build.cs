@@ -18,7 +18,10 @@ public class Chapter3_3 : ModuleRules
 			"StateTreeModule",
 			"GameplayStateTreeModule",
 			"UMG",
-			"Slate"
+			"Slate",
+			"GameplayAbilities",
+			"GameplayTags",
+			"GameplayTasks"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });
@@ -30,7 +33,13 @@ public class Chapter3_3 : ModuleRules
 			"Chapter3_3/Variant_Shooter",
 			"Chapter3_3/Variant_Shooter/AI",
 			"Chapter3_3/Variant_Shooter/UI",
-			"Chapter3_3/Variant_Shooter/Weapons"
+			"Chapter3_3/Variant_Shooter/Weapons",
+			"Chapter3_3/GAS",
+			"Chapter3_3/GAS/Attributes",
+			"Chapter3_3/GAS/Abilities",
+			"Chapter3_3/GAS/Effects",
+			"Chapter3_3/Items",
+			"Chapter3_3/Wave"
 		});
 
 		// Uncomment if you are using Slate UI

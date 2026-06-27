@@ -10,6 +10,8 @@ UCLASS()
 class CHAPTER3_3_API AEnemy_Tank_Both : public AEnemy_Tank_Moving
 {
 	GENERATED_BODY()
+public:
+	AEnemy_Tank_Both();
 
 protected:
 	virtual void Tick(float DeltaTime) override;

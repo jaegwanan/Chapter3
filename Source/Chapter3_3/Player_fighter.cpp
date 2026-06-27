@@ -1,6 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Player_fighter.h"
+#include "GAS/Attributes/HealthAttributeSet.h"
+#include "GAS/Attributes/FuelAttributeSet.h"
+#include "GAS/Abilities/GA_FighterShoot.h"
+#include "AbilitySystemComponent.h"
 #include "Components/BoxComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "EnhancedInputComponent.h"
@@ -11,12 +15,15 @@
 APlayer_fighter::APlayer_fighter()
 {
 	PrimaryActorTick.bCanEverTick = true;
+	ShootAbilityClass = UGA_FighterShoot::StaticClass();
 
 	BoxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("Box"));
 	SetRootComponent(BoxComp);
 
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	MeshComp->SetupAttachment(BoxComp);
+
+	MuzzlePoint->SetupAttachment(MeshComp);
 
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	SpringArm->SetupAttachment(BoxComp);
@@ -29,6 +36,19 @@ APlayer_fighter::APlayer_fighter()
 
 	BoxComp->SetCollisionProfileName(TEXT("Pawn"));
 	MeshComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
+void APlayer_fighter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	AddAttributeSet<UHealthAttributeSet>();
+	AddAttributeSet<UFuelAttributeSet>();
+
+	if (AbilitySystemComponent && ShootAbilityClass)
+	{
+		AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(ShootAbilityClass, 1));
+	}
 }
 
 void APlayer_fighter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

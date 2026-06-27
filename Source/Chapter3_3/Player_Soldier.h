@@ -2,7 +2,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
+#include "GAS/MyGASPawn.h"
 #include "Player_Soldier.generated.h"
 
 class UCapsuleComponent;
@@ -13,7 +13,7 @@ class UCameraComponent;
 struct FInputActionValue;
 
 UCLASS()
-class CHAPTER3_3_API APlayer_Soldier : public APawn
+class CHAPTER3_3_API APlayer_Soldier : public AMyGASPawn
 {
 	GENERATED_BODY()
 
@@ -35,6 +35,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UCameraComponent* Camera;
 
+	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
